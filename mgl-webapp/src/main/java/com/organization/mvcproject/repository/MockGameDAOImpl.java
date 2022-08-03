@@ -5,34 +5,35 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.organization.mvcproject.model.Game;
+import com.organization.mvcproject.api.repository.MockGameDAO;
+import com.organization.mvcproject.model.GameImpl;
 
 @Repository
-public class MockGameDAO {
+public class MockGameDAOImpl implements MockGameDAO {
 
 	
 	private static Long gameId = new Long(0);
 
-	public static List<Game> games = new ArrayList<Game>();
+	public static List<GameImpl> games = new ArrayList<GameImpl>();
 
 
 	static {
 		games = populateGames();
 	}
+	
+	private static List<GameImpl> populateGames() {
 
-	private static List<Game> populateGames() {
-
-		Game game1 = new Game();
+		GameImpl game1 = new GameImpl();
 		game1.setGameId(++gameId);
 		game1.setGameGenre("Sport");
 		game1.setGameName("Rocket League");
 
-		Game game2 = new Game();
+		GameImpl game2 = new GameImpl();
 		game2.setGameId(++gameId);
 		game2.setGameGenre("Shooter");
 		game2.setGameName("Halo 3");
 
-		Game game3 = new Game();
+		GameImpl game3 = new GameImpl();
 		game3.setGameId(++gameId);
 		game3.setGameGenre("MMORPG");
 		game3.setGameName("Runescape");
@@ -44,19 +45,19 @@ public class MockGameDAO {
 		return games;
 	}
 
-	public List<Game> retrieveAllGames() {
+	public List<GameImpl> retrieveAllGames() {
 		return games;
 	}
-
-	public Game saveGame(Game game) {
+	@Override
+	public GameImpl saveGame(GameImpl game) {
 		game.setGameId(++gameId);
 		games.add(game);
 		return game;
 	}
-	
-	public Game updateGame(Game game) {
+	@Override
+	public GameImpl updateGame(GameImpl game) {
 		if(game.getGameId() != null) {
-			Game foundGame = findGameById(game.getGameId());
+			GameImpl foundGame = findGameById(game.getGameId());
 			if(foundGame != null) {
 				//update the game in the list
 				//find game in the list
@@ -71,10 +72,10 @@ public class MockGameDAO {
 		}
 		return saveGame(game); //game doesn't exist, so we're saving it as new
 	}
-	
-	public Game findGameById(Long id) {
+	@Override
+	public GameImpl findGameById(Long id) {
 		//for each loop
-		for (Game game : games) {
+		for (GameImpl game : games) {
 			if(id.equals(game.getGameId())) {
 				return game;
 			}
@@ -82,7 +83,7 @@ public class MockGameDAO {
 		//if no game found
 		return null;
 	}
-
+	@Override
 	public boolean deleteGame(Long id) {
 		for (int i=0; i<games.size();i++) {
 			if(id == games.get(i).getGameId()) {

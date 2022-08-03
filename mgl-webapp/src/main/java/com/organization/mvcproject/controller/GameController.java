@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.organization.mvcproject.model.Game;
-import com.organization.mvcproject.model.Review;
-import com.organization.mvcproject.service.GameService;
+import com.organization.mvcproject.api.service.GameService;
+import com.organization.mvcproject.model.GameImpl;
+import com.organization.mvcproject.model.ReviewImpl;
 @Controller
 public class GameController {
 
@@ -30,11 +30,11 @@ public class GameController {
 	@RequestMapping(value = "/review", method = RequestMethod.GET)
 	public ModelAndView review() {
 
-		return new ModelAndView("reviewCreatePage", "command", new Review());
+		return new ModelAndView("reviewCreatePage", "command", new ReviewImpl());
 	}
 
 	@RequestMapping(value = "/addReview", method = RequestMethod.POST)
-	public ModelAndView addReview(Review review, ModelMap model) {
+	public ModelAndView addReview(ReviewImpl review, ModelMap model) {
 		if(review.getAuthor().equals("")) {
 			review.setAuthor("anonymous");
 		}
@@ -45,7 +45,7 @@ public class GameController {
 	
 	@RequestMapping(value = "/games", method = RequestMethod.GET)
 	public ModelAndView game() {
-		return new ModelAndView("gamesPage", "command", new Game());
+		return new ModelAndView("gamesPage", "command", new GameImpl());
 	}
 
 	/**
@@ -53,12 +53,12 @@ public class GameController {
 	 */
 	
 	@RequestMapping(value = "/game", method = RequestMethod.GET)
-	public ResponseEntity<List<Game>> fetchAllGames() {
-		return new ResponseEntity<List<Game>>(gameService.retrieveAllGames(), HttpStatus.OK);
+	public ResponseEntity<List<GameImpl>> fetchAllGames() {
+		return new ResponseEntity<List<GameImpl>>(gameService.retrieveAllGames(), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/game", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> createGame(@RequestBody Game game) {
+	public ResponseEntity<Void> createGame(@RequestBody GameImpl game) {
 		gameService.saveGame(game);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}

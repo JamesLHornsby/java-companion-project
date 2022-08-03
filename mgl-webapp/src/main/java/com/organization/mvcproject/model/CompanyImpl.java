@@ -4,27 +4,31 @@ package com.organization.mvcproject.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.organization.mvcproject.api.model.Company;
+import com.organization.mvcproject.api.model.Game;
 
-import com.organization.mvcproject.service.GameServiceImpl;
-
-public class Company {
+public class CompanyImpl implements Company{
 
 	private Long id;
 	private String name;
 	private List<Game> gamesMade;
 
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -33,6 +37,7 @@ public class Company {
 		return gamesMade;
 	}
 
+	@Override
 	public void setGamesMade(List<Game> gamesMade) {
 		this.gamesMade = gamesMade;
 	}
