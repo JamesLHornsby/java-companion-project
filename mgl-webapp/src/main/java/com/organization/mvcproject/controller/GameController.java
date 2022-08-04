@@ -7,59 +7,38 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.organization.mvcproject.api.service.GameService;
+import com.organization.mvcproject.api.model.Game;
 import com.organization.mvcproject.model.GameImpl;
-import com.organization.mvcproject.model.ReviewImpl;
-@Controller
+
+@RequestMapping(value="/game")
+@RestController
 public class GameController {
 
 	@Autowired
 	private GameService gameService;
 
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home() {
-		return "index";
-	}
-	
-	@RequestMapping(value = "/review", method = RequestMethod.GET)
-	public ModelAndView review() {
-
-		return new ModelAndView("reviewCreatePage", "command", new ReviewImpl());
+	public ResponseEntity<List<Game>> fetchAllGames() {
+		return new ResponseEntity<List<Game>>(gameService.retrieveAllGames(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/addReview", method = RequestMethod.POST)
-	public ModelAndView addReview(ReviewImpl review, ModelMap model) {
-		if(review.getAuthor().equals("")) {
-			review.setAuthor("anonymous");
-		}
-
-		return new ModelAndView("reviewDetailPage", "submittedReview", review);
-	}
-
-	
-	@RequestMapping(value = "/games", method = RequestMethod.GET)
-	public ModelAndView game() {
-		return new ModelAndView("gamesPage", "command", new GameImpl());
-	}
-
-	/**
-	 * TODO 2.0 (Separation of concerns) consider moving all controller endpoints that return a ResponseEntity into a @RestController.
-	 */
-	
-	@RequestMapping(value = "/game", method = RequestMethod.GET)
-	public ResponseEntity<List<GameImpl>> fetchAllGames() {
-		return new ResponseEntity<List<GameImpl>>(gameService.retrieveAllGames(), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/game", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> createGame(@RequestBody GameImpl game) {
 		gameService.saveGame(game);
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<?> deleteGame(@PathVariable("id") Long gameId) {
+		return new ResponseEntity<>(gameService.deleteGame(gameId), HttpStatus.OK);
 	}
 }

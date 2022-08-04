@@ -1,15 +1,19 @@
 package com.organization.mvcproject.api.repository;
 
-import com.organization.mvcproject.model.GameImpl;
+import java.util.List;
+
+import com.organization.mvcproject.api.model.Game;
 
 public interface MockGameDAO {
 
-	GameImpl updateGame(GameImpl game);
+	Game updateGame(Game game);
 
-	GameImpl saveGame(GameImpl game);
+	Game saveGame(Game game);
 
-	GameImpl findGameById(Long id);
+	Game findGameById(Long id);
 
 	boolean deleteGame(Long id);
+
+	List<Game> findGamesByGenre(String genre);
 
 }

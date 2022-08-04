@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.organization.mvcproject.api.model.Game;
 import com.organization.mvcproject.api.service.GameService;
-import com.organization.mvcproject.model.GameImpl;
 import com.organization.mvcproject.repository.MockGameDAOImpl;
 
 
@@ -18,23 +18,33 @@ public class GameServiceImpl implements GameService {
 	private MockGameDAOImpl gameDAO;
 
 	@Override
-	public List<GameImpl> retrieveAllGames() {
+	public List<Game> retrieveAllGames() {
 		return gameDAO.retrieveAllGames();
 	}
 
 	@Override
-	public GameImpl saveGame(GameImpl game) {
+	public Game saveGame(Game game) {
 		return gameDAO.saveGame(game);
 	}
 	
 	@Override
-	public GameImpl updateGame(GameImpl game) {
+	public Game updateGame(Game game) {
 		return gameDAO.updateGame(game);
+	}
+	
+	@Override
+	public Game findGameById(Long id) {
+		return gameDAO.findGameById(id);
 	}
 	
 	@Override
 	public boolean deleteGame(Long id) {
 		return gameDAO.deleteGame(id);
+	}
+
+	@Override
+	public List<Game> findGamesByGenre(String genre) {
+		return gameDAO.findGamesByGenre(genre);
 	}
 
 }
