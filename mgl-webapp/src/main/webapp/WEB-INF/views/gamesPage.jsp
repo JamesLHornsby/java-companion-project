@@ -6,8 +6,8 @@
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
         <script src="resources/static/js/app.js" /></script>
-        <script src="resources/static/js/MGL_Task1.service.js"></script>
-        <script src="resources/static/js/MGL_Task1.controller.js"></script>
+        <script src="resources/static/js/service/game.service.js"></script>
+        <script src="resources/static/js/controller/game.controller.js"></script>
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -29,7 +29,7 @@
     <body ng-app="MGL_Task1_app" class="ng-cloak">
         <mgl:myNav/>
         <br>
-        <div class="container" ng-controller="MGL_Task1_Controller as MGL_T1_ctrl">
+        <div class="container" ng-controller="Game_Controller as MGL_T1_ctrl">
             <div class="panel panel-default">
                 <div class="panel-heading text-light"><span class="lead">Game Registration Form </span></div>
                 <div class="formcontainer">
@@ -61,7 +61,8 @@
 
                         <div class="row">
                             <div class="form-actions floatRight">
-                                <input type="submit" value="Add" class="btn btn-primary btn-sm">
+                                <input type="submit" id="add_button" value="Add" class="btn btn-primary btn-sm">
+                                <!--  <input type="submit" id="update_button" value="Update" class="btn btn-primary btn-sm">-->
                             </div>
                         </div>
                     </form>
@@ -76,6 +77,9 @@
                             <tr>
                                 <th>Game Name</th>
                                 <th>Game Genre</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                                 <th width="20%"></th>
                             </tr>
                         </thead>
@@ -83,6 +87,9 @@
                             <tr ng-repeat="currentGame in MGL_T1_ctrl.games">
                                 <td><span ng-bind="currentGame.gameName"></span></td>
                                 <td><span ng-bind="currentGame.gameGenre"></span></td>
+                                <td></td>
+                                <td><button data-ng-click="MGL_T1_ctrl.selectGame(currentGame)" class="btn btn-secondary btn-sm">Select</button></td>
+                                <td><button data-ng-click="MGL_T1_ctrl.deleteGame(currentGame)" class="btn btn-secondary btn-sm">Delete</button></td>
                                 <td>
                                 </td>
                             </tr>

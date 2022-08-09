@@ -38,8 +38,8 @@ public class GameServiceImpl implements GameService {
 	}
 	
 	@Override
-	public boolean deleteGame(Long id) {
-		return gameDAO.deleteGame(id);
+	public boolean deleteGame(Game game) {
+		return gameDAO.deleteGame(game);
 	}
 
 	@Override

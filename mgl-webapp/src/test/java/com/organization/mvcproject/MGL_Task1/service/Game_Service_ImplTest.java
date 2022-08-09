@@ -25,6 +25,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.organization.mvcproject.api.model.Game;
 import com.organization.mvcproject.api.service.GameService;
 import com.organization.mvcproject.config.MvcConfiguration;
 import com.organization.mvcproject.model.GameImpl;
@@ -56,16 +57,16 @@ class Game_Service_ImplTest {
 	@Test
 	void saveGameServiceSavesAndUpdatesGame() {
 		if(gamesToRemoveAfterTest.isEmpty()) {
-			GameImpl game = gameServiceUnderTest.saveGame(testGame);
+			GameImpl game = (GameImpl) gameServiceUnderTest.saveGame(testGame);
 			Assertions.assertNotNull(game.getGameId());
 			
 			//updates 
 			game.setGameName("Testing Game Name Updated" );
-			testGame = gameServiceUnderTest.saveGame(game);
+			testGame = (GameImpl) gameServiceUnderTest.saveGame(game);
 			assertEquals(game, testGame);	
 			gamesToRemoveAfterTest.add(testGame);
 			//the saveGame works, save another game to setup list operation tests
-			gamesToRemoveAfterTest.add(gameServiceUnderTest.saveGame(createGame(2)));
+			gamesToRemoveAfterTest.add((GameImpl) gameServiceUnderTest.saveGame(createGame(2)));
 		}
 	}
 	
@@ -84,7 +85,7 @@ class Game_Service_ImplTest {
 	
 	@Test
   	void retrieveAllGamesServiceReturnsGames() {
-		List<GameImpl> games = gameServiceUnderTest.retrieveAllGames(); 
+		List<Game> games = gameServiceUnderTest.retrieveAllGames(); 
 		assertNotNull(games);
 		assertTrue(games.size() >= 2 );
 	}

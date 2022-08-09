@@ -12,7 +12,7 @@ public interface MockGameDAO {
 
 	Game findGameById(Long id);
 
-	boolean deleteGame(Long id);
+	boolean deleteGame(Game game);
 
 	List<Game> findGamesByGenre(String genre);
 
