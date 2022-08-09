@@ -11,7 +11,7 @@ import com.organization.mvcproject.model.ReviewImpl;
 
 @Controller
 public class HomeController {
-	
+//These return pages of application...
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
 		return "index";

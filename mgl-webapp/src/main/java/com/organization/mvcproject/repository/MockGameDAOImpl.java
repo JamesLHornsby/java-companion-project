@@ -50,9 +50,24 @@ public class MockGameDAOImpl implements MockGameDAO {
 	}
 	@Override
 	public Game saveGame(Game game) {
+		if(game.getGameId() != null) {
+			Game foundGame = findGameById(game.getGameId());
+			if(foundGame != null) {
+				//update the game in the list
+				//find game in the list
+				for (int i=0; i<gameImpls.size(); i++) {
+					if (game.getGameId().equals(gameImpls.get(i).getGameId())) {
+						gameImpls.set(i, (GameImpl) game);
+						return (Game) gameImpls.get(i);
+					}
+				}
+			}
+			//optionally we could throw an error showing this game doesn't exist
+		}
 		game.setGameId(++gameId);
 		gameImpls.add((GameImpl) game);
 		return game;
+
 	}
 	@Override
 	public Game updateGame(Game game) {
@@ -84,9 +99,9 @@ public class MockGameDAOImpl implements MockGameDAO {
 		return null;
 	}
 	@Override
-	public boolean deleteGame(Long id) {
+	public boolean deleteGame(Game game) {
 		for (int i=0; i<gameImpls.size();i++) {
-			if(id == gameImpls.get(i).getGameId()) {
+			if(game.getGameId().equals(gameImpls.get(i).getGameId())) {
 				return gameImpls.remove(gameImpls.get(i));
 			}
 		}

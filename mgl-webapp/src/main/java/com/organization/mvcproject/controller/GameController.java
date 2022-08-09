@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,8 +39,20 @@ public class GameController {
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<?> deleteGame(@PathVariable("id") Long gameId) {
-		return new ResponseEntity<>(gameService.deleteGame(gameId), HttpStatus.OK);
+	//Update
+	@PutMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> updateGame(@RequestBody GameImpl game) {
+	
+		gameService.updateGame(game);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+	
+	// URL will be localhost:8081/game (DELETE 
+	@PostMapping(value="/delete", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> deleteGame(@RequestBody GameImpl game ){
+		gameService.deleteGame(game);
+		return new ResponseEntity<>( HttpStatus.OK);
+	}
+	
+	
 }
