@@ -32,12 +32,7 @@ angular.module('MGL_Task1_app').controller('Game_Controller',
 				}
 			}
 			
-			function sortGames(gameOrder) {
-				if (gameOrder == 'AtoZ') {
-					return self.fetchAllGames.sort();
-				}
-				
-			}
+
 			
 			function parseGenres(){
 				var strArray = [];
