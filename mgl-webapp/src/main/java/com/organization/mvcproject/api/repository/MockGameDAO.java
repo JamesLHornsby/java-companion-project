@@ -14,6 +14,7 @@ public interface MockGameDAO {
 
 	boolean deleteGame(Game game);
 
-	List<Game> findGamesByGenre(String genre);
+	List<Game> filterByGenre(String genre);
 
+	List<Game> retrieveAllGames();
 }
