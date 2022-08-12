@@ -2,6 +2,7 @@ package com.organization.mvcproject.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 import com.google.common.collect.ImmutableList;
@@ -55,12 +56,16 @@ public class MockGameDAOImpl implements MockGameDAO {
 			if(foundGame != null) {
 				//update the game in the list
 				//find game in the list
-				for (int i=0; i<gameImpls.size(); i++) {
-					if (game.getGameId().equals(gameImpls.get(i).getGameId())) {
-						gameImpls.set(i, (GameImpl) game);
-						return (Game) gameImpls.get(i);
-					}
-				}
+				gameImpls = gameImpls.stream()
+						.map(games -> games.getGameId().equals(game.getGameId()) ? (GameImpl) game : games)
+						.collect(Collectors.toList());
+				return game;
+				
+				/*
+				 * for (int i=0; i<gameImpls.size(); i++) { if
+				 * (game.getGameId().equals(gameImpls.get(i).getGameId())) { gameImpls.set(i,
+				 * (GameImpl) game); return (Game) gameImpls.get(i); } }
+				 */
 			}
 			//optionally we could throw an error showing this game doesn't exist
 		}
@@ -88,34 +93,36 @@ public class MockGameDAOImpl implements MockGameDAO {
 		return saveGame(game); //game doesn't exist, so we're saving it as new
 	}
 	@Override
-	public Game findGameById(Long id) {
-		//for each loop
-		for (Game game : gameImpls) {
-			if(id.equals(game.getGameId())) {
-				return game;
-			}
-		}
-		//if no game found
-		return null;
+	public List<Game> filterByGenre(String genre) {
+		return gameImpls.stream()
+				.filter(game -> genre.equals(game.getGameGenre()))
+				.collect(Collectors.toList());
+		/*
+		 * for (Game game : gameImpls) { if(id.equals(game.getGameId())) { return game;
+		 * } } //if no game found
+		 * 
+		 * return null;
+		 */
+		
 	}
 	@Override
 	public boolean deleteGame(Game game) {
-		for (int i=0; i<gameImpls.size();i++) {
-			if(game.getGameId().equals(gameImpls.get(i).getGameId())) {
-				return gameImpls.remove(gameImpls.get(i));
-			}
-		}
-		return false;
+		return gameImpls.removeIf(games -> games.getGameId().equals(game.getGameId()));
+		/*
+		 * for (int i=0; i<gameImpls.size();i++) {
+		 * if(game.getGameId().equals(gameImpls.get(i).getGameId())) { return
+		 * gameImpls.remove(gameImpls.get(i)); } } return false;
+		 */
 	}
 	
-	public List<Game> findGamesByGenre(String genre) {
-		List<Game> gamesOfGenre = new ArrayList<>();
-		for(int i=0; i< gameImpls.size();i++) {
-			if (genre == gameImpls.get(i).getGameGenre()) {
-				gamesOfGenre.add(gameImpls.get(i));
-			}
-		}
-		return (gamesOfGenre.isEmpty()) ? null : gamesOfGenre;
+
+
+	@Override
+	public Game findGameById(Long id) {
+		return gameImpls.stream()
+				.filter(game -> id.equals(game.getGameId()))
+				.findAny()
+				.orElse(null);
 	}
 
 

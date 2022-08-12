@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.organization.mvcproject.api.model.Game;
+import com.organization.mvcproject.api.repository.MockGameDAO;
 import com.organization.mvcproject.api.service.GameService;
 import com.organization.mvcproject.repository.MockGameDAOImpl;
 
@@ -15,7 +16,7 @@ import com.organization.mvcproject.repository.MockGameDAOImpl;
 public class GameServiceImpl implements GameService {
 
 	@Autowired
-	private MockGameDAOImpl gameDAO;
+	private MockGameDAO gameDAO;
 
 	@Override
 	public List<Game> retrieveAllGames() {
@@ -44,7 +45,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public List<Game> findGamesByGenre(String genre) {
-		return gameDAO.findGamesByGenre(genre);
+		return gameDAO.filterByGenre(genre);
 	}
 
 }
