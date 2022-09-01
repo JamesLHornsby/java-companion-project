@@ -89,7 +89,15 @@
                         <thead>
                             <tr>
                                 <th>Game Name</th>
-                                
+                                <th>
+                                	<label for="select_AZ_filter">Select Order</label>
+                                	<select id="select_AZ_filter" class="btn btn-secondary btn-sm" orderFilter="aToZFilter">
+                                	<option data-ng-click="ctrl.sortGames('byId')">By ID Number</option>
+                	 		 		<option data-ng-click="ctrl.sortGames('AtoZ')">A to Z</option>
+                	 		 		<option data-ng-click="ctrl.sortGames('ZtoA')">Z to A</option>
+                                	
+                                	</select>
+                                </th>
                                 <th>Game Genre</th>
                                 <th>
                                 	<span data-ng-if="ctrl.genres.length > 1"><span class="lead"> | </span>
